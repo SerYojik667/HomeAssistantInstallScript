@@ -10,7 +10,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 beforestart () {
-    
+
     info "Настоятельно рекомендуем перед началом обновить все библиотеки (apt update && apt upgrade)"
     while true; do
         read -p "Обновить все библиотеки? Yes - обновить, No - продолжить без обновления (yes/no): " yn
@@ -64,28 +64,28 @@ beforestart () {
 }
 
 afterstart () {
-    info "\nУстановка Docker"
+    info "Установка Docker"
     sudo curl -fsSL get.docker.com | sh
-    info "\nУстановка прав докера для текущего пользователя"
+    info "Установка прав докера для текущего пользователя"
     sudo usermod -aG docker $USER
-    info "\nУстановка необходимых библиотек"
+    info "Установка необходимых библиотек"
     sudo apt-get install -y jq wget curl udisks2 libglib2.0-bin network-manager dbus apparmor systemd-journal-remote
     info "Установка московского часового пояса"
     sudo timedatectl set-timezone Europe/Moscow
-    info "\nУстановка OS agent"
+    info "Установка OS agent"
     curl -s https://api.github.com/repos/home-assistant/os-agent/releases/latest | grep "browser_download_url.*aarch64\.deb" | cut -d : -f 2,3 | tr -d \" | wget -O os-agent-aarch64.deb -i -
     sudo dpkg -i os-agent-aarch64.deb
-    info "\nУстановка Home Assistant Supervised"
+    info "Установка Home Assistant Supervised"
     wget https://github.com/home-assistant/supervised-installer/releases/latest/download/homeassistant-supervised.deb
-    warn -e "Сейчас появится меню с выбором, выберите odroid-c2"
+    warn "Сейчас появится меню с выбором, выберите odroid-c2"
     sleep 5
     sudo dpkg -i --ignore-depends=systemd-resolved homeassistant-supervised.deb
     sudo rm -rf homeassistant-supervised.deb os-agent-aarch64.deb
 
-
-    info "\n\nУстановка Home Assistant прошла успешно"
+    echo -e "\n\n"
+    info "Установка Home Assistant прошла успешно"
     # wifisetup
-    # Присутствует проблема с присоединением к Wifi с защитой
+    # Присутствует проблема с присоединением к Wifi с защитой WPA3
 }
 
 wifisetup () {
