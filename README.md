@@ -1,0 +1,1 @@
+# Установщик Home Assistant Supervised на устройства семейства OrangePI
