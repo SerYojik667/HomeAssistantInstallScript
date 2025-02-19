@@ -64,6 +64,10 @@ beforestart () {
 }
 
 afterstart () {
+    info "Сохранение файла os-release"
+    sudo cp /etc/os-release /etc/os-release_orig
+    info "Изменение имени имени OS что бы homeassistant установился"
+    sudo sed -i 's/PRETTY_NAME=.*/PRETTY_NAME="Debian GNU\/Linux 12 (bookworm)"/' "/etc/os-release"
     info "Установка Docker"
     sudo curl -fsSL get.docker.com | sh
     info "Установка прав докера для текущего пользователя"
