@@ -113,5 +113,6 @@ if [ -f ~/.isrestart ]; then
     rm ~/.isrestart
     afterstart
 else
+    wifisetup
     beforestart
 fi
