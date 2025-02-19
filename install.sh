@@ -73,7 +73,8 @@ afterstart () {
     info "Установка прав докера для текущего пользователя"
     sudo usermod -aG docker $USER
     info "Установка необходимых библиотек"
-    sudo apt-get install -y jq wget curl udisks2 libglib2.0-bin network-manager dbus apparmor systemd-journal-remote
+    sudo apt --fix-broken install -y
+    sudo apt-get install -y jq wget curl udisks2 libglib2.0-bin network-manager dbus apparmor systemd-journal-remote bluez cifs-utils
     info "Установка московского часового пояса"
     sudo timedatectl set-timezone Europe/Moscow
     info "Установка OS agent"
@@ -83,7 +84,7 @@ afterstart () {
     wget https://github.com/home-assistant/supervised-installer/releases/latest/download/homeassistant-supervised.deb
     warn "Сейчас появится меню с выбором, выберите odroid-c2"
     sleep 5
-    sudo dpkg -i --ignore-depends=systemd-resolved homeassistant-supervised.deb
+    sudo BYPASS_OS_CHECK=true dpkg -i --ignore-depends=systemd-resolved homeassistant-supervised.deb
     sudo rm -rf homeassistant-supervised.deb os-agent-aarch64.deb
 
     echo -e "\n\n"
